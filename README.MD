@@ -18,7 +18,7 @@
 ```xml
 
 <dependency>
-    <groupId>com.diduweiwucom.diduweiwu</groupId>
+    <groupId>io.github.diduweiwu</groupId>
     <artifactId>test-assured</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
