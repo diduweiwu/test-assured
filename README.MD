@@ -18,6 +18,7 @@
 ```xml
 
 <dependency>
+    <groupId>io.github.diduweiwu</groupId>
     <groupId>com.fiture</groupId>
     <artifactId>test-assured</artifactId>
     <version>1.0-SNAPSHOT</version>
