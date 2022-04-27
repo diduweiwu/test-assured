@@ -129,7 +129,7 @@ public class RequestUtil {
      */
     public static RequestSpecification composeRequest(Object api, List<ISetUp> iSetUps) {
         Assert.notNull(api, "接口对象不能为null");
-        RequestSpecification request = given();
+        RequestSpecification request = given().relaxedHTTPSValidation();
         // 分析class注解
         analyzeClazz(api, request);
         // 分析field注解

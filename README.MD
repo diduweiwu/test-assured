@@ -18,7 +18,7 @@
 ```xml
 
 <dependency>
-    <groupId>io.github.diduweiwu</groupId>
+    <groupId>com.fiture</groupId>
     <artifactId>test-assured</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -57,7 +57,7 @@ class UserInfo {
 @Post
 @Host("http://0.0.0.0:9001")
 @ContentType("application/json")
-class UserInfo {
+class UserInfo implements Api{
 
 }
 ```
@@ -65,13 +65,14 @@ class UserInfo {
 **解释**
 
 - @Post 标注请求接口为POST类型,目前支持的动词有:
-    - @Get
-    - @Post
-    - @Put
-    - @Delete
-    - @Options
+  - @Get
+  - @Post
+  - @Put
+  - @Delete
+  - @Options
 - @Host 标注请求地址,注解value值为地址
 - @ContentType 标注配置header头信息 ContentType
+- 实现了Api接口,后续可直接在场景构造时候传入对象,而不需要手动调用RequestUtil方法
 
 ##### 1.1.3 接口调用
 
@@ -81,13 +82,13 @@ class UserInfo {
 
 - send(new UserInfo()) 单接口调用
 - send(new UserInfo(), setUps, postChecks)
-    - setUps:前置处理列表,是实现了ISetUp接口的对象集合,支持在接口调用前自定义请求信息
+  - setUps:前置处理列表,是实现了ISetUp接口的对象集合,支持在接口调用前自定义请求信息
 
     ```text
       // 建议使用lambda表达式传入,req是rest-assured的原生Request对象
-         List<ISetUp> setUps = ListUtil.of(req -> req.header("Test", "Yes"));
+         List<ISetUp> setUps = ListUtil.of(req -> req.header("FITURE", "Yes"));
     ```
-    - postChecks:后置检查列表,是实现了IPostCheck接口的对象集合,支持在接口调用完成对响应进行断言和校验逻辑
+  - postChecks:后置检查列表,是实现了IPostCheck接口的对象集合,支持在接口调用完成对响应进行断言和校验逻辑
 
     ```text
       // 建议使用lambda表达式传入,res是rest-assured的原生response对象
@@ -114,20 +115,29 @@ class UserInfo {
 RequestScene.of(RequestUtil.send(new UserInfo()));
 ```
 
+或者,如果UserInfo对象实现了Api接口,则可以直接传入对象
+
+```java
+//将第一个接口调用的response返回值作为入参来初始化场景
+RequestScene.of(new UserInfo());
+```
+
 ##### 1.2.2 链式串联接口调用
 
 **理论上大部分接口都是链式调用,故暂未考虑并行接口调用的场景**
 
 **调用then()方法并传入1+个接口调用作为入参**
-**then方法也支持Function<Response,Response>类型的lambda表达式作为入参,此时会将上次接口调用的response作为入参传入,如此可从上个接口取值进行使用**
-
+**then()方法也支持Function<Response,Response>类型的lambda表达式作为入参,此时会将上次接口调用的response作为入参传入,如此可从上个接口取值进行使用**
+**then()方法也支持传入实现了Api接口的请求对象传入**
 ```java
 RequestScene.of(RequestUtil.send(new User()))
         .then(RequestUtil.send(new User()))
         .then(
         RequestUtil.send(new User()),
         RequestUtil.send(new User())
-        ).then(r->RequestUtil.send(new User()));
+        )
+        .then(new User())
+        .then(r->RequestUtil.send(new User()));
 ```
 
 ##### 1.2.3 触发场景接口调用
@@ -220,35 +230,35 @@ private String search;
 **可用注解,注解可以添加在属性上,也可以添加在方法上,通过返回值来动态赋值**
 
 - 请求动词
-    - @Delete
-    - @Get
-    - @Options
-    - @Post
-    - @Put
+  - @Delete
+  - @Get
+  - @Options
+  - @Post
+  - @Put
 - 请求参数
-    - @Body
-    - @BodyFile
-    - @BodyFilePath
-    - @FormParam
-    - @Query
+  - @Body
+  - @BodyFile
+  - @BodyFilePath
+  - @FormParam
+  - @Query
 
 - 框架基础
-    - @IAnnotation
+  - @IAnnotation
 
 - 请求头信息
-    - @Header
-    - @Headers
+  - @Header
+  - @Headers
 
 - Cookie信息
-    - @Cookie
-    - @Cookies
+  - @Cookie
+  - @Cookies
 
 - 其他请求配置
-    - @ContentType
-    - @Host
+  - @ContentType
+  - @Host
 
 - BearToken配置
-    - @BearToken
+  - @BearToken
 
 ## 写在最后
 

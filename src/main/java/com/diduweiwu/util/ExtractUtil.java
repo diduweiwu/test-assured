@@ -47,6 +47,7 @@ public class ExtractUtil {
         if (element instanceof Method) {
             Method method = (Method) element;
             methodValue = ReflectUtil.invoke(api, method);
+            methodName = method.getName();
         }
         // 回调传回fieldName与fieldValue用于业务逻辑处理
         methodValueConsumer.accept(methodName, methodValue);

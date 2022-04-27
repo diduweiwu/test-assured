@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import com.diduweiwu.annotation.ContentType;
+import com.diduweiwu.annotation.Get;
 import com.diduweiwu.annotation.Host;
 import com.diduweiwu.annotation.Post;
 import com.diduweiwu.annotation.header.Header;
@@ -16,6 +17,7 @@ import com.diduweiwu.processor.contract.IPostCheck;
 import com.diduweiwu.processor.contract.ISetUp;
 import com.diduweiwu.processor.custom.My;
 import com.diduweiwu.scene.RequestScene;
+import com.diduweiwu.type.Api;
 import com.diduweiwu.util.RequestUtil;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -97,5 +99,26 @@ public class ProcessorTest {
         );
         Response response = RequestUtil.send(new User(), setUps, postChecks);
         log.info(response.asString());
+    }
+
+    @Get
+    @Host("https://api.uomg.com/api/rand.qinghua")
+    @ContentType(ContentType.Type.APPLICATION_JSON)
+    static class ApiCall implements Api {
+        /**
+         * key与value,都以注解配置为第一优先级
+         * 若key不存在,则取字段名称/方法名称
+         * 若value不存在,则取字段的值/方法返回值
+         */
+        @Query
+        public final String format() {
+            return "json";
+        }
+    }
+
+    @Test
+    public void testApi() {
+        Response response = RequestScene.of(new ApiCall()).complete();
+        log.info(response.getBody().asString());
     }
 }

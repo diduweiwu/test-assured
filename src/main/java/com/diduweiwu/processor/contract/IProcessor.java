@@ -77,22 +77,23 @@ public interface IProcessor {
         final AtomicReference<Object> atmoicKey = new AtomicReference<>();
         // 对象字段里面的属性
         ExtractUtil.extractFieldValue(api, element, (fieldKey, fieldValue) -> {
-            if (ObjectUtil.isNotEmpty(fieldKey)) {
+            if (ObjectUtil.isNotEmpty(fieldValue)) {
                 atmoicKey.set(fieldKey);
             }
         });
 
         // 对象方法里面的属性
         ExtractUtil.extractMethodValue(api, element, (methodKey, methodValue) -> {
-            if (ObjectUtil.isNotEmpty(methodKey)) {
+            if (ObjectUtil.isNotEmpty(methodValue)) {
                 atmoicKey.set(methodKey);
             }
         });
 
         // 注解里面配置的属性有最高优先级,所以注解里面配置了对应属性,则以注解属性为准
         ExtractUtil.extractAnnotationFieldValue(element, annotationType, "key", (annotationKey, annotationValue) -> {
-            if (ObjectUtil.isNotEmpty(annotationKey)) {
-                atmoicKey.set(annotationKey);
+            // 如果注解key字段指定的值非空,则将指定的值设置为键值
+            if (ObjectUtil.isNotEmpty(annotationValue)) {
+                atmoicKey.set(annotationValue);
             }
         });
 

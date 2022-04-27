@@ -1,6 +1,8 @@
 package com.diduweiwu.scene;
 
 import cn.hutool.core.lang.Assert;
+import com.diduweiwu.type.Api;
+import com.diduweiwu.util.RequestUtil;
 import io.restassured.response.Response;
 
 import java.util.function.Function;
@@ -19,7 +21,7 @@ public class RequestScene {
     /**
      * 初始化response
      */
-    private Response initResponse;
+    private Supplier<Response> initResponseSupplier;
 
     /**
      * 初始化场景对象
@@ -28,10 +30,23 @@ public class RequestScene {
      * @return
      */
     public static RequestScene of(Response response) {
-        RequestScene scece = new RequestScene();
-        // 以第一个结果为准初始化completeablefuture任务对象
-        scece.initResponse = response;
-        return scece;
+        RequestScene scene = new RequestScene();
+        // 以第一个结果为准初始化 CompleteableFuture 场景对象
+        scene.initResponseSupplier = () -> response;
+        return scene;
+    }
+
+    /**
+     * 初始化场景对象
+     *
+     * @param api
+     * @return
+     */
+    public static RequestScene of(Api api) {
+        RequestScene scene = new RequestScene();
+        // 以第一个结果为准初始化 CompleteableFuture 场景对象
+        scene.initResponseSupplier = () -> RequestUtil.send(api);
+        return scene;
     }
 
     /**
@@ -41,9 +56,9 @@ public class RequestScene {
      * @return
      */
     public static RequestScene of(Supplier<Response> supplier) {
-        RequestScene scece = new RequestScene();
-        scece.initResponse = supplier.get();
-        return scece;
+        RequestScene scene = new RequestScene();
+        scene.initResponseSupplier = supplier;
+        return scene;
     }
 
     /**
@@ -55,6 +70,35 @@ public class RequestScene {
     public RequestScene then(Function<Response, Response> requestCall) {
         Assert.notNull(requestCall, "接口响应回调不能为空");
         this.currentCall = this.currentCall.andThen(requestCall);
+
+        return this;
+    }
+
+    /**
+     * then链式调用下一个请求
+     *
+     * @param api
+     * @return
+     */
+    public RequestScene then(Api api) {
+        Assert.notNull(api, "接口响应回调不能为空");
+        this.currentCall = this.currentCall.andThen(r -> RequestUtil.send(api));
+
+        return this;
+    }
+
+    /**
+     * then链式调用下一个请求
+     *
+     * @param apis
+     * @return
+     */
+    public RequestScene then(Api... apis) {
+        Assert.notEmpty(apis, "接口响应回调不能为空");
+
+        for (Api api : apis) {
+            this.currentCall = this.currentCall.andThen(r -> RequestUtil.send(api));
+        }
 
         return this;
     }
@@ -95,7 +139,16 @@ public class RequestScene {
      * @return
      */
     public Response complete() {
-        Assert.notNull(this.initResponse, "接口返回值不能为空");
-        return this.currentCall.apply(this.initResponse);
+        Assert.notNull(this.initResponseSupplier, "接口返回值不能为空");
+        return this.currentCall.apply(this.initResponseSupplier.get());
+    }
+
+    /**
+     * complete 函数的别名
+     *
+     * @return
+     */
+    public Response done() {
+        return this.complete();
     }
 }
