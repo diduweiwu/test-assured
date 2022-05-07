@@ -18,10 +18,9 @@
 ```xml
 
 <dependency>
-    <groupId>io.github.diduweiwu</groupId>
-    <groupId>com.fiture</groupId>
-    <artifactId>test-assured</artifactId>
-    <version>1.0-SNAPSHOT</version>
+  <groupId>io.github.diduweiwu</groupId>
+  <artifactId>test-assured</artifactId>
+  <version>1.1.0-REALEASE</version>
 </dependency>
 ```
 
