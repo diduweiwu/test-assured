@@ -12,10 +12,9 @@
     <description>Another way to build api test</description>
     <licenses>
         <license>
-            <name>Server Side Public License</name>
-            <url>https://www.mongodb.com/licensing/server-side-public-license</url>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
-            <comments>A not business-friendly OSS license</comments>
         </license>
     </licenses>
     <developers>
@@ -136,7 +135,6 @@
                             <goals>deploy</goals>
                         </configuration>
                     </plugin>
-
                 </plugins>
             </build>
             <distributionManagement>
