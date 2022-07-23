@@ -1,6 +1,7 @@
 # Test-Assured
 
-**我们的目标:以更加优雅的方式设计自动化接口与自动化场景**
+**我们的目标: 以更加优雅和简洁的方式设计自动化接口与自动化场景**
+
 
 ## 技术选型
 
@@ -8,6 +9,7 @@
 - RestAssured
 - Maven
 - Hutool
+
 
 ## 使用文档
 
@@ -72,7 +74,7 @@ class UserInfo implements Api{
   - @Options
 - @Host 标注请求地址,注解value值为地址
 - @ContentType 标注配置header头信息 ContentType
-- 实现了Api接口,后续可直接在场景构造时候传入对象,而不需要手动调用RequestUtil方法
+- **实现了Api接口,后续可直接在场景构造时候传入对象,而不需要手动调用RequestUtil方法**
 
 ##### 1.1.3 接口调用
 
@@ -95,7 +97,7 @@ class UserInfo implements Api{
          List<IPostCheck> postChecks=ListUtil.of(
              res->Assert.notContain(res.body().asString(),"name","返回值不能包含关键字")
          );
-    ``` 
+    ```
 - 还有其他一些方法参考RequestUtil静态类,详细可参考RequestUtil静态类,常用方法都添加了注释说明
 
 #### 1.2 多接口调用
@@ -129,6 +131,7 @@ RequestScene.of(new UserInfo());
 **调用then()方法并传入1+个接口调用作为入参**
 **then()方法也支持Function<Response,Response>类型的lambda表达式作为入参,此时会将上次接口调用的response作为入参传入,如此可从上个接口取值进行使用**
 **then()方法也支持传入实现了Api接口的请求对象传入**
+
 ```java
 RequestScene.of(RequestUtil.send(new User()))
         .then(RequestUtil.send(new User()))
@@ -145,7 +148,7 @@ RequestScene.of(RequestUtil.send(new User()))
 **链式接口调用串联完成后,调用.complete()方法即可触发整个场景接口的调用**
 **complete()方法返回的是最后一个接口的响应**
 
- ```java
+```java
 RequestScene.of(RequestUtil.send(new User()))
         .then(RequestUtil.send(new User()))
         .then(
@@ -161,7 +164,7 @@ RequestScene.of(RequestUtil.send(new User()))
 
 #### 2.1 自定义注解
 
-**新建一个功能注解,定义好该注解的相关类型,然后对其使用IAnnotation注解,仅标注了该注解才会被识别**
+**新建一个功能注解,定义好该注解的相关类型,然后对其添加IAnnotation注解,仅标注了该注解才会被识别**
 
 ```java
 
@@ -197,7 +200,7 @@ public class MyProcessor implements IProcessor {
 
 #### 2.3 关联注解与注解处理器
 
-**最终需要在My注解中设置processor参数为MyProcessor的类型**
+**最终需要在My注解中设置processor属性为MyProcessor的Clazz类型**
 
 ```java
 
@@ -230,37 +233,44 @@ private String search;
 **可用注解,注解可以添加在属性上,也可以添加在方法上,通过返回值来动态赋值**
 
 - 请求动词
+
   - @Delete
   - @Get
   - @Options
   - @Post
   - @Put
 - 请求参数
+
   - @Body
   - @BodyFile
   - @BodyFilePath
   - @FormParam
   - @Query
-
 - 框架基础
-  - @IAnnotation
 
+  - @IAnnotation
 - 请求头信息
+
   - @Header
   - @Headers
-
 - Cookie信息
+
   - @Cookie
   - @Cookies
-
 - 其他请求配置
+
   - @ContentType
   - @Host
-
 - BearToken配置
+
   - @BearToken
 
 ## 写在最后
 
 **由于这是比较初始的版本,肯定有很多考虑步骤和可优化的地方,欢迎大家使用、反馈和参与扩充功能:)**
 
+
+## TODO
+
+- 支持WS协议
+- 接口响应数据整个调用链可用(目前仅紧跟的后一个请求可使用当前接口的响应数据)
