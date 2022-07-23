@@ -20,7 +20,7 @@
 <dependency>
   <groupId>io.github.diduweiwu</groupId>
   <artifactId>test-assured</artifactId>
-  <version>1.1.0-REALEASE</version>
+  <version>1.1.1-REALEASE</version>
 </dependency>
 ```
 
