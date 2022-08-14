@@ -2,14 +2,12 @@
 
 **我们的目标: 以更加优雅和简洁的方式设计自动化接口与自动化场景**
 
-
 ## 技术选型
 
 - Java 1.8
 - RestAssured
 - Maven
 - Hutool
-
 
 ## 使用文档
 
@@ -22,7 +20,7 @@
 <dependency>
   <groupId>io.github.diduweiwu</groupId>
   <artifactId>test-assured</artifactId>
-  <version>1.1.1-REALEASE</version>
+  <version>请填入最新版本号</version>
 </dependency>
 ```
 
@@ -67,13 +65,16 @@ class UserInfo implements Api{
 **解释**
 
 - @Post 标注请求接口为POST类型,目前支持的动词有:
-  - @Get
-  - @Post
-  - @Put
-  - @Delete
-  - @Options
-- @Host 标注请求地址,注解value值为地址
-- @ContentType 标注配置header头信息 ContentType
+    - @Get
+    - @Post
+    - @Put
+    - @Delete
+    - @Options
+
+所有动词支持path路径配置,例如: @Get("/api/test")
+
+- @Host 标注请求地址,注解value值为地址/域名
+- @ContentType 标注配置header头信息 ContentType,默认为 application/json
 - **实现了Api接口,后续可直接在场景构造时候传入对象,而不需要手动调用RequestUtil方法**
 
 ##### 1.1.3 接口调用
@@ -84,20 +85,20 @@ class UserInfo implements Api{
 
 - send(new UserInfo()) 单接口调用
 - send(new UserInfo(), setUps, postChecks)
-  - setUps:前置处理列表,是实现了ISetUp接口的对象集合,支持在接口调用前自定义请求信息
+    - setUps:前置处理列表,是实现了ISetUp接口的对象集合,支持在接口调用前自定义请求信息
 
-    ```text
-      // 建议使用lambda表达式传入,req是rest-assured的原生Request对象
-         List<ISetUp> setUps = ListUtil.of(req -> req.header("FITURE", "Yes"));
-    ```
-  - postChecks:后置检查列表,是实现了IPostCheck接口的对象集合,支持在接口调用完成对响应进行断言和校验逻辑
+      ```text
+        // 建议使用lambda表达式传入,req是rest-assured的原生Request对象
+           List<ISetUp> setUps = ListUtil.of(req -> req.header("FITURE", "Yes"));
+      ```
+    - postChecks:后置检查列表,是实现了IPostCheck接口的对象集合,支持在接口调用完成对响应进行断言和校验逻辑
 
-    ```text
-      // 建议使用lambda表达式传入,res是rest-assured的原生response对象
-         List<IPostCheck> postChecks=ListUtil.of(
-             res->Assert.notContain(res.body().asString(),"name","返回值不能包含关键字")
-         );
-    ```
+      ```text
+        // 建议使用lambda表达式传入,res是rest-assured的原生response对象
+           List<IPostCheck> postChecks=ListUtil.of(
+               res->Assert.notContain(res.body().asString(),"name","返回值不能包含关键字")
+           );
+      ```
 - 还有其他一些方法参考RequestUtil静态类,详细可参考RequestUtil静态类,常用方法都添加了注释说明
 
 #### 1.2 多接口调用
@@ -129,7 +130,8 @@ RequestScene.of(new UserInfo());
 **理论上大部分接口都是链式调用,故暂未考虑并行接口调用的场景**
 
 **调用then()方法并传入1+个接口调用作为入参**
-**then()方法也支持Function<Response,Response>类型的lambda表达式作为入参,此时会将上次接口调用的response作为入参传入,如此可从上个接口取值进行使用**
+**then()方法也支持Function<Response,Response>
+类型的lambda表达式作为入参,此时会将上次接口调用的response作为入参传入,如此可从上个接口取值进行使用**
 **then()方法也支持传入实现了Api接口的请求对象传入**
 
 ```java
@@ -234,41 +236,48 @@ private String search;
 
 - 请求动词
 
-  - @Delete
-  - @Get
-  - @Options
-  - @Post
-  - @Put
+    - @Delete
+    - @Get
+    - @Options
+    - @Post
+    - @Put
 - 请求参数
 
-  - @Body
-  - @BodyFile
-  - @BodyFilePath
-  - @FormParam
-  - @Query
+    - @Body
+    - @BodyFile
+    - @BodyFilePath
+    - @FormParam
+    - @Query
 - 框架基础
 
-  - @IAnnotation
+    - @IAnnotation
 - 请求头信息
 
-  - @Header
-  - @Headers
+    - @Header
+    - @Headers
 - Cookie信息
 
-  - @Cookie
-  - @Cookies
+    - @Cookie
+    - @Cookies
 - 其他请求配置
 
-  - @ContentType
-  - @Host
+    - @ContentType
+    - @Host
 - BearToken配置
 
-  - @BearToken
+    - @BearToken
+
+## 更新日志
+
+### 2022-08-14
+
+- Get等请求动词支持value配置,Host和Path可以分离了(类似于SpringBoot)
+- ContentType注解默认值设置为application/json
+- 新增支持pathParam,与Spring类似 @PathParam(key="",value="") 或者 @PathParams 注解到Map对象上
 
 ## 写在最后
 
 **由于这是比较初始的版本,肯定有很多考虑步骤和可优化的地方,欢迎大家使用、反馈和参与扩充功能:)**
-
 
 ## TODO
 

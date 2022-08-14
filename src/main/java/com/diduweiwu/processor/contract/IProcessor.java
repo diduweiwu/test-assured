@@ -1,5 +1,6 @@
 package com.diduweiwu.processor.contract;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import com.diduweiwu.util.ExtractUtil;
@@ -7,8 +8,10 @@ import io.restassured.specification.RequestSpecification;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * 处理器
@@ -73,7 +76,7 @@ public interface IProcessor {
      * @return
      */
     default Object executeKey(Object api, AnnotatedElement element, Class<? extends Annotation> annotationType) {
-        // 引用类型来保存value值
+        // 引用类型来保存key值
         final AtomicReference<Object> atmoicKey = new AtomicReference<>();
         // 对象字段里面的属性
         ExtractUtil.extractFieldValue(api, element, (fieldKey, fieldValue) -> {
@@ -117,6 +120,20 @@ public interface IProcessor {
 
         // 调用具体配置逻辑设置restassured的配置
         keyValueConsumer.accept(String.valueOf(key), value);
+    }
+
+    /**
+     * 通过注解里面的key-value map来处理逻辑
+     *
+     * @param api
+     * @param element
+     * @param annotationType
+     * @param keyValueMapConsumer
+     */
+    default void executeKeyValueMap(Object api, AnnotatedElement element, Class<? extends Annotation> annotationType, Consumer<Map<String, Object>> keyValueMapConsumer) {
+        Map<String, Object> keyValueMap = AnnotationUtil.getAnnotationValueMap(element, annotationType);
+
+        keyValueMapConsumer.accept(keyValueMap);
     }
 
     /**

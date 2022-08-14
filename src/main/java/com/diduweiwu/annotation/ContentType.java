@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ContentType {
-    String value();
+    String value() default Type.APPLICATION_JSON;
 
     Class<? extends IProcessor> processor() default ContentTypeProcessor.class;
 

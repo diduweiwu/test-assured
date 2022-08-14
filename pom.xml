@@ -6,7 +6,7 @@
     <groupId>io.github.diduweiwu</groupId>
     <artifactId>test-assured</artifactId>
     <name>test-assured</name>
-    <version>1.1.1-REALEASE</version>
+    <version>1.2.0-REALEASE</version>
 
     <url>https://github.com/diduweiwu/test-assured</url>
     <description>Another way to build api test</description>
@@ -37,8 +37,8 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <hutool-core.version>5.8.3</hutool-core.version>
-        <testng.version>7.6.0</testng.version>
+        <hutool.version>5.8.5</hutool.version>
+        <testng.version>7.6.1</testng.version>
         <rest-assured.version>5.1.1</rest-assured.version>
         <lombok.version>1.18.24</lombok.version>
         <slf4j-api.version>1.7.36</slf4j-api.version>
@@ -48,7 +48,13 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
-            <version>${hutool-core.version}</version>
+            <version>${hutool.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+            <version>${hutool.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
