@@ -6,7 +6,7 @@
     <groupId>io.github.diduweiwu</groupId>
     <artifactId>test-assured</artifactId>
     <name>test-assured</name>
-    <version>1.2.0-REALEASE</version>
+    <version>1.2.1-REALEASE</version>
 
     <url>https://github.com/diduweiwu/test-assured</url>
     <description>Another way to build api test</description>
