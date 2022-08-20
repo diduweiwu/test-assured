@@ -76,6 +76,7 @@ class UserInfo implements Api{
 - @Host 标注请求地址,注解value值为地址/域名
 - @ContentType 标注配置header头信息 ContentType,默认为 application/json
 - **实现了Api接口,后续可直接在场景构造时候传入对象,而不需要手动调用RequestUtil方法**
+- **实现了Api接口,可以直接对对象实例调用.send()方法获取Response**
 
 ##### 1.1.3 接口调用
 
@@ -268,6 +269,9 @@ private String search;
     - @BearToken
 
 ## 更新日志
+
+### 2022-08-20
+- Api接口新增send()函数,实现了Api接口的对象,可直接调用send()方法获取接口返回值
 
 ### 2022-08-14
 

@@ -31,7 +31,7 @@ public class ProcessorTest {
     @ContentType
     @Get("/api/breeds/image/{apiType}")
     @Host("https://dog.ceo")
-    static class SimpleRandomPicture {
+    static class SimpleRandomPicture implements Api{
         @PathParams
         public Map apiType = MapUtil.of("apiType", "random");
     }
@@ -79,7 +79,8 @@ public class ProcessorTest {
 
     @Test
     public void testSingle() {
-        Response response = RequestUtil.send(new SimpleRandomPicture());
+//        Response response = RequestUtil.send(new SimpleRandomPicture());
+        Response response =  new SimpleRandomPicture().send();
         System.out.println(response.asString());
         Assert.equals(response.jsonPath().getString("status"), "success");
     }
