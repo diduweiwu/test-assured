@@ -12,6 +12,6 @@ import java.lang.reflect.AnnotatedElement;
 public class BearTokenProcessor implements IProcessor {
     @Override
     public void execute(Object api, AnnotatedElement element, Class<? extends Annotation> clazzAnnotation, RequestSpecification request) {
-        this.executeSingValue(api, element, clazzAnnotation, value -> request.head("Authorization", "Bear " + value));
+        this.executeSingValue(api, element, clazzAnnotation, value -> request.header("Authorization", "Bearer " + value));
     }
 }
