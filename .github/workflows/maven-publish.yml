@@ -37,7 +37,7 @@ jobs:
 
     - name: Print version
       run: |
-        echo "${{ steps.show.outputs.data }}"
+        echo "${{ steps.show.outputs }}"
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
 #      with:
