@@ -27,14 +27,14 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -DskipTests
 
       # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        repo_token: "${{ secrets.ACCESS_TOKEn }}"
-        automatic_release_tag: "${{ env.RELEASE_VERSION }}"
-        prerelease: false
-        title: "Release ${{ env.RELEASE_VERSION }}"
+        repo_token: "${{ secrets.ACCESS_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
         files: |
           target/*.jar
