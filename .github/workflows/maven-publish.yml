@@ -32,7 +32,7 @@ jobs:
 #      run: mvn -B package --file pom.xml -DskipTests
 
     - name: Print Release Version
-      run: echo "当前版本号是 $RELEASE_VERSION "
+      run: echo "当前版本号是 ${{RELEASE_VERSION}} "
 
 
     - name: Another Print Version
