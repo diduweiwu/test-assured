@@ -35,7 +35,10 @@ jobs:
          version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' exec:exec)
 
     - name: Show Version
-      run: echo "${{env.version}}"
+      run: |
+        echo "${{inputs.version}}"
+        echo "${{env.version}}"
+        echo "${{inputs}}"
 
 
 #      # 上传文件并发布 Release
