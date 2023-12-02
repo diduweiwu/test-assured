@@ -27,7 +27,9 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
     - name: Set environment variable
       run: |
-        echo "RELEASE_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> "$GITHUB_ENV"
+        echo "RELEASE_VERSION=${{env.RELEASE_VERSION}}" >> "$GITHUB_ENV"
+      env:
+         RELEASE_VERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 
     - name: Use environment variable
       run: |
