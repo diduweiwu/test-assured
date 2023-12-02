@@ -28,8 +28,14 @@ jobs:
 #    - name: Build with Maven
 #      run: mvn -B package --file pom.xml -DskipTests
 
-    - name: Set Version
-      run: echo $(mvn help:evaluate -Dexpression=project.version)
+
+    - name: Fetch Release Version
+      run: echo "开始设置变量"
+      env:
+        VERSION: $(mvn help:evaluate -Dexpression=project.version)
+
+    - name: Print Release Version
+      run: echo ${{env.VERSION}}
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
