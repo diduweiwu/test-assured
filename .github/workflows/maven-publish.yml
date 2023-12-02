@@ -29,11 +29,19 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
 
+    - name: Extract version from pom.xml
+      id: extract
+      run: echo "::set-output name=version::$(xmllint --xpath 'string(//project/version)' pom.xml)"
+
+    - name: Use extracted version
+      run: echo "Version is ${{ steps.extract.outputs.version }}"
+
       # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.ACCESS_TOKEN }}"
-        automatic_release_tag: "latest"
+        automatic_release_tag: ${{steps.extract.outputs.version}}
         prerelease: false
+        title: ${{steps.extract.outputs.version}}
         files: |
           target/*.jar
