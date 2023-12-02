@@ -33,7 +33,7 @@ jobs:
       run: |
         version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
         echo "VERSION: $version"
-        set-env name=VERSION value=$version
+        export name=VERSION value=$version
       env:
         name: 123
 
