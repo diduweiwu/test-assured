@@ -9,15 +9,6 @@ on:
       - master
 
 jobs:
-  greeting_job:
-    runs-on: ubuntu-latest
-    env:
-      Greeting: Hello
-    steps:
-      - name: "Say Hello Mona it's Monday"
-        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
-        env:
-          First_Name: Mona
   build:
     runs-on: ubuntu-latest
     permissions:
@@ -37,14 +28,10 @@ jobs:
 #    - name: Build with Maven
 #      run: mvn -B package --file pom.xml -DskipTests
 
-
-    - name: Fetch Release Version
-      run: echo "开始设置变量"
-      env:
-        RELEASE_VERSION: v1.2.2
-
     - name: Print Release Version
       run: echo "当前版本号是 $RELEASE_VERSION "
+      env:
+        RELEASE_VERSION: v1.2.2
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
