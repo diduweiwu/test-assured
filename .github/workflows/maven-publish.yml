@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,19 +28,25 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
 
-    - name: Extract version from pom.xml
-      id: extract
-      run: echo "::set-output name=version::$(xmllint --xpath 'string(//project/version)' pom.xml)"
+    - name: Get version
+      run: |
+        version=$(cat pom.xml | jq '.version')
 
-    - name: Use extracted version
-      run: echo "Version is ${{ steps.extract.outputs.version }}"
+    - name: Set version
+      set-env:
+        name: VERSION
+        value: ${{ steps.get-version.outputs.version }}
+
+    - name: Print version
+      run:
+        echo "Version: ${{ env.VERSION }}"
 
       # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.ACCESS_TOKEN }}"
-        automatic_release_tag: ${{steps.extract.outputs.version}}
+        automatic_release_tag: ${{env.VERSION}}
         prerelease: false
-        title: ${{steps.extract.outputs.version}}
+        title: ${{env.VERSION}}
         files: |
           target/*.jar
