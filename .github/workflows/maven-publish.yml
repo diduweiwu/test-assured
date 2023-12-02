@@ -28,25 +28,21 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
 
-    - name: Get version
-      run: |
-        version=$(cat pom.xml | jq '.version')
+    - name: Set Version
+      run: echo "VERSION=$(cat pom.xml | jq '.version')" >> $GITHUB_ENV
 
-    - name: Set version
-      set-env:
-        name: VERSION
-        value: ${{ steps.get-version.outputs.version }}
+    - name: Test
+      run: echo $VERSION
 
     - name: Print version
-      run: |
-        echo "Version: ${{ env.VERSION }}"
+      run: echo "Version is ${{ env.VERSION }}"
 
-      # 上传文件并发布 Release
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.ACCESS_TOKEN }}"
-        automatic_release_tag: ${{env.VERSION}}
-        prerelease: false
-        title: ${{env.VERSION}}
-        files: |
-          target/*.jar
+#      # 上传文件并发布 Release
+#    - uses: "marvinpinto/action-automatic-releases@latest"
+#      with:
+#        repo_token: "${{ secrets.ACCESS_TOKEN }}"
+#        automatic_release_tag: ${{env.VERSION}}
+#        prerelease: false
+#        title: ${{env.VERSION}}
+#        files: |
+#          target/*.jar
