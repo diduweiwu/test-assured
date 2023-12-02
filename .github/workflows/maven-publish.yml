@@ -26,28 +26,17 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-#    - name: Build with Maven
-#      run: mvn -B package --file pom.xml -DskipTests
-    - name: Show Version
-      id: show
-      run: |
-        version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
-        echo "VERSION: $version"
-        export name=VERSION value=$version
-      env:
-        name: 123
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml -DskipTests
 
-    - name: Print version
-      run: |
-        echo "${{ steps.show.outputs.version }}"
-        echo "${{ steps.show.outputs.VERSION }}"
-        echo "${{ steps.show.outputs.name }}"
-#      # 上传文件并发布 Release
-#    - uses: "marvinpinto/action-automatic-releases@latest"
-#      with:
-#        repo_token: "${{ secrets.ACCESS_TOKEN  }}"
-#        automatic_release_tag: "latest"
-#        prerelease: false
-#        title: ${{env.VERSION}}
-#        files: |
-#          target/*.jar
+      # 上传文件并发布 Release
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.ACCESS_TOKEN  }}"
+        automatic_release_tag: "latest"
+        prerelease: false
+        title: ${{env.VERSION}}
+        files: |
+          target/*.jar
+      env:
+        VERSION: echo "$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)"
