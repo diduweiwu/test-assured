@@ -34,7 +34,7 @@ jobs:
         RELEASE_VERSION: v1.2.2
 
     - name: Another Print Version
-      run: echo "再次打印 当前版本号是 $RELEASE_VERSION "
+      run: echo "再次打印 当前版本号是 ${{env.RELEASE_VERSION}} "
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
