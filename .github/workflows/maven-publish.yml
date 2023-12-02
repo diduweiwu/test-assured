@@ -11,9 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    inputs:
-      VERSION:
-        type: string
     permissions:
       contents: read
       packages: write
