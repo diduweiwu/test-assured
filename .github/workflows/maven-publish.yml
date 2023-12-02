@@ -9,6 +9,15 @@ on:
       - master
 
 jobs:
+  greeting_job:
+    runs-on: ubuntu-latest
+    env:
+      Greeting: Hello
+    steps:
+      - name: "Say Hello Mona it's Monday"
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+        env:
+          First_Name: Mona
   build:
     runs-on: ubuntu-latest
     permissions:
@@ -35,7 +44,7 @@ jobs:
         RELEASE_VERSION: v1.2.2
 
     - name: Print Release Version
-      run: echo "当前版本号是 ${{ env.RELEASE_VERSION }}"
+      run: echo "当前版本号是 $RELEASE_VERSION "
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
