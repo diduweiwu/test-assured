@@ -34,7 +34,6 @@ jobs:
       with:
         repo_token: "${{ secrets.ACCESS_TOKEN }}"
         automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
+        prerelease: false
         files: |
           target/*.jar
