@@ -32,16 +32,21 @@ jobs:
 
     - name: Show extracted Maven project version
       run: | 
-        echo ${{ env.MVERSION }}
+        echo ${{ env.RELEASE_VERSION }}
       env:
-        MVERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        RELEASE_VERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+    - name: Print Version Agin
+      run: echo "AGAIN ${env.RELEASE_VERSION }"
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
 #      with:
 #        repo_token: "${{ secrets.ACCESS_TOKEN }}"
-#        automatic_release_tag: ${{env.VERSION}}
+#        automatic_release_tag: ${{env.RELEASE_VERSION}}
 #        prerelease: false
-#        title: ${{env.VERSION}}
+#        title: ${{env.RELEASE_VERSION}}
 #        files: |
 #          target/*.jar
+#      env:
+#        RELEASE_VERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+
