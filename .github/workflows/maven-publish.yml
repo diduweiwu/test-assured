@@ -38,7 +38,7 @@ jobs:
         value: ${{ steps.get-version.outputs.version }}
 
     - name: Print version
-      run:
+      run: |
         echo "Version: ${{ env.VERSION }}"
 
       # 上传文件并发布 Release
