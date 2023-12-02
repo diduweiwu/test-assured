@@ -31,11 +31,12 @@ jobs:
 
       # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
-
+      env:
+        VERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
       with:
         repo_token: "${{ secrets.ACCESS_TOKEN  }}"
         automatic_release_tag: "latest"
         prerelease: false
-        title: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        title: ${{env.VERSION}}
         files: |
           target/*.jar
