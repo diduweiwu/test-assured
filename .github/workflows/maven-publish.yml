@@ -29,14 +29,15 @@ jobs:
 #    - name: Build with Maven
 #      run: mvn -B package --file pom.xml -DskipTests
 #
-
     - name: Get version from Maven
-      run: |
-         version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' exec:exec)
+      run: echo "获取Pom版本号 ${{ env.version}}"
+      env:
+        version: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' exec:exec)
 
     - name: Show Version
       run: |
         echo "${{steps.build.outputs.version}}"
+        echo "${{steps.build.env.version}}"
 
 
 #      # 上传文件并发布 Release
