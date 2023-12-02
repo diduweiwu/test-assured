@@ -29,7 +29,7 @@ jobs:
       run: mvn -B package --file pom.xml -DskipTests
 
     - name: Set Version
-      run: echo "VERSION=$(cat pom.xml | jq '.version')" >> $GITHUB_ENV
+      run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version)" >> $GITHUB_ENV
 
     - name: Test
       run: echo $VERSION
