@@ -31,11 +31,14 @@ jobs:
 #      run: mvn -B package --file pom.xml -DskipTests
 
     - name: Extract Maven project version
-      run: echo "{version}=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_STATE
+#      run: echo "{version}=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_STATE
+      run: echo "version=123" >> $GITHUB_STATE
       id: project
 
     - name: Show extracted Maven project version
-      run: echo ${{ steps.project.outputs.version }}
+      run: | 
+        echo ${{ steps.project.outputs.version }}
+        echo ${{ env.version }}
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
