@@ -32,8 +32,8 @@ jobs:
       # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        repo_token: "${{ secrets.ACCESS_TOKEN }}"
-        automatic_release_tag: ${{env.RELEASE_VERSION}}
+        repo_token: "${{ secrets.ACCESS_TOKEN  }}"
+#        automatic_release_tag: ${{env.RELEASE_VERSION}}
         prerelease: false
         title: ${{env.RELEASE_VERSION}}
         files: |
