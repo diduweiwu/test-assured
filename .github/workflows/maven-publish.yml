@@ -36,9 +36,7 @@ jobs:
 
     - name: Show Version
       run: |
-        echo "${{inputs.version}}"
-        echo "${{env.version}}"
-        echo "${{inputs}}"
+        echo "${{steps.build.outputs.version}}"
 
 
 #      # 上传文件并发布 Release
