@@ -29,13 +29,7 @@ jobs:
 #      run: mvn -B package --file pom.xml -DskipTests
 
     - name: Set Version
-      run: export VERSION=$(mvn help:evaluate -Dexpression=project.version)
-
-    - name: Test
-      run: echo $VERSION
-
-    - name: Print version
-      run: echo "Version is ${{ env.VERSION }}"
+      run: echo $(mvn help:evaluate -Dexpression=project.version)
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
