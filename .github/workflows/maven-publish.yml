@@ -29,10 +29,14 @@ jobs:
 
 #    - name: Build with Maven
 #      run: mvn -B package --file pom.xml -DskipTests
+    - name: Get version
+      run: |
+        VV=$(mvn help:evaluate -Dexpression=project.version)
+        echo "${{env.VV}} AND ${{VV}}"
 
     - name: Print Release Version
       env:
-        RELEASE_VERSION: $(cat pom.xml | jq '.version')
+        RELEASE_VERSION: $(mvn help:evaluate -Dexpression=project.version)
       run: echo "当前版本号是 ${{env.RELEASE_VERSION}} "
 
 #      # 上传文件并发布 Release
