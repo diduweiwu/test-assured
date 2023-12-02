@@ -32,7 +32,7 @@ jobs:
     - name: Fetch Release Version
       run: echo "开始设置变量"
       env:
-        VERSION: $(mvn help:evaluate -Dexpression=project.version)
+        VERSION: v1.2.2
 
     - name: Print Release Version
       run: echo ${{env.VERSION}}
