@@ -33,7 +33,7 @@ jobs:
     - name: Print Release Version
       env:
         RELEASE_VERSION: v1.2.2
-      run: echo "当前版本号是 ${env.RELEASE_VERSION} "
+      run: echo "当前版本号是 ${{env.RELEASE_VERSION}} "
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
