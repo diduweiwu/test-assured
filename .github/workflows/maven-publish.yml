@@ -31,8 +31,8 @@ jobs:
 #      run: mvn -B package --file pom.xml -DskipTests
     - name: Get version
       run: |
-        VV=$(mvn help:evaluate -Dexpression=project.version)
-        echo "${{env.VV}} AND ${{VV}}"
+        VV=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "${{env.VV}}"
 
     - name: Print Release Version
       env:
