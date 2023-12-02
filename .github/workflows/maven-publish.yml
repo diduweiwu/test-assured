@@ -37,8 +37,8 @@ jobs:
 
     - name: Show extracted Maven project version
       run: | 
-        echo ${{ steps.project.outputs.version }}
-        echo ${{ env.version }}
+        echo ${{ env.GITHUB_STATE.version }}
+        echo ${{ env.GITHUB_STATE }}
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
