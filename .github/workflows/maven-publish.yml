@@ -29,21 +29,15 @@ jobs:
       run: |
         echo "RELEASE_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> "$GITHUB_ENV"
 
-    - name: Use environment variable
-      run: |
-        printf '%s\n' "$RELEASE_VERSION"
-        echo ${{env.RELEASE_VERSION}}
-#    - name: Build with Maven
-#      run: mvn -B package --file pom.xml -DskipTests
-#
-#      # 上传文件并发布 Release
-#    - uses: "marvinpinto/action-automatic-releases@latest"
-#      with:
-#        repo_token: "${{ secrets.ACCESS_TOKEN  }}"
-#        automatic_release_tag: "latest"
-#        prerelease: false
-#        title: ${{env.VERSION}}
-#        files: |
-#          target/*.jar
-#      env:
-#        VERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml -DskipTests
+
+      # 上传文件并发布 Release
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.ACCESS_TOKEN  }}"
+        automatic_release_tag: ${{env.RELEASE_VERSION}}
+        prerelease: false
+        title: ${{env.RELEASE_VERSION}}
+        files: |
+          target/*.jar
