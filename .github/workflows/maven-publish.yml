@@ -30,18 +30,11 @@ jobs:
 #    - name: Build with Maven
 #      run: mvn -B package --file pom.xml -DskipTests
 
-    - name: Extract Maven project version
-#      run: echo "{version}=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_STATE
-      run: echo "获取MAVEN Project版本"
-      env:
-        name: VERSION
-        value: 1.0.0
-      id: project
-
     - name: Show extracted Maven project version
       run: | 
-        echo ${{ env.value }}
-        echo ${{ steps.get-version.outputs.value }}
+        echo ${{ env.MVERSION }}
+      env:
+        MVERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
