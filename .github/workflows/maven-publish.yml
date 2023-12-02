@@ -25,18 +25,15 @@ jobs:
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
-      env:
-        RELEASE_VERSION: v1.2.2
+
 
 #    - name: Build with Maven
 #      run: mvn -B package --file pom.xml -DskipTests
 
     - name: Print Release Version
-      run: echo "当前版本号是 ${{RELEASE_VERSION}} "
-
-
-    - name: Another Print Version
-      run: echo "再次打印 当前版本号是 ${{env.RELEASE_VERSION}} "
+      env:
+        RELEASE_VERSION: v1.2.2
+      run: echo "当前版本号是 ${env.RELEASE_VERSION} "
 
 #      # 上传文件并发布 Release
 #    - uses: "marvinpinto/action-automatic-releases@latest"
