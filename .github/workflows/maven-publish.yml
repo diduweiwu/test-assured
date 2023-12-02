@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    inputs:
+      VERSION:
+        type: string
     permissions:
       contents: read
       packages: write
@@ -26,17 +29,21 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml -DskipTests
+#    - name: Build with Maven
+#      run: mvn -B package --file pom.xml -DskipTests
+    - name: Show Version
+      run: |
+        export VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 
-      # 上传文件并发布 Release
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      env:
-        VERSION: $(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
-      with:
-        repo_token: "${{ secrets.ACCESS_TOKEN  }}"
-        automatic_release_tag: "latest"
-        prerelease: false
-        title: ${{env.VERSION}}
-        files: |
-          target/*.jar
+    - name: Print version
+      run: |
+        echo "${{ env.VERSION }}"
+#      # 上传文件并发布 Release
+#    - uses: "marvinpinto/action-automatic-releases@latest"
+#      with:
+#        repo_token: "${{ secrets.ACCESS_TOKEN  }}"
+#        automatic_release_tag: "latest"
+#        prerelease: false
+#        title: ${{env.VERSION}}
+#        files: |
+#          target/*.jar
