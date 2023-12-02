@@ -31,7 +31,7 @@ jobs:
 #      run: mvn -B package --file pom.xml -DskipTests
 
     - name: Extract Maven project version
-      run: echo "version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_STATE
+      run: echo "{version}=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_STATE
       id: project
 
     - name: Show extracted Maven project version
